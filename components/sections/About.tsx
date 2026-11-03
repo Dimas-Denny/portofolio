@@ -50,9 +50,12 @@ export default function About() {
         </h2>
 
         {/* Feature list */}
-        <ul className="mt-15 divide-y divide-neutral-200">
+        <ul className="mt-15">
           {features.map((feature) => (
-            <li key={feature.title} className="py-5 first:pt-0">
+            <li
+              key={feature.title}
+              className="border-b border-neutral-200 py-5 first:pt-0"
+            >
               {/* Icon inside a circle */}
               <div className="flex size-12 items-center justify-center rounded-full border border-neutral-300">
                 <Image src={feature.icon} alt="" width={24} height={24} />
