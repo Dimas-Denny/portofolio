@@ -66,6 +66,8 @@
 
 @theme inline {
   --font-sans: var(--font-montserrat);
+  --font-script: var(--font-bonheur-royale);
+  --font-condensed: var(--font-anton);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -136,6 +138,11 @@
   @media (width >= 48rem) {
     padding-inline: 2rem;
   }
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px #f3b64c; /* secondary-100 */
 }
 
 @layer base {
