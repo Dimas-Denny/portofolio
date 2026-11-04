@@ -73,7 +73,13 @@ export default function TechStack() {
                         isFilled ? "bg-white" : "bg-neutral-100",
                       )}
                     >
-                      <Image src={tech.icon} alt="" width={28} height={28} />
+                      <Image
+                        src={tech.icon}
+                        alt=""
+                        width={28}
+                        height={28}
+                        className="size-7 object-contain"
+                      />
                     </div>
 
                     <h3 className="mt-6 text-md font-bold text-neutral-950">
