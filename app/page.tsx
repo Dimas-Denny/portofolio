@@ -3,7 +3,7 @@ import About from "@/components/sections/About";
 import Hero from "@/components/sections/Hero";
 import TechStack from "@/components/sections/TechStack";
 import Comparison from "@/components/sections/Comparison";
-import Portfolio from "@/components/sections/Portfolio";
+import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Testimonials from "@/components/sections/Testimonials";
 import Faq from "@/components/sections/Faq";
@@ -19,7 +19,7 @@ export default function Home() {
         <About />
         <TechStack />
         <Comparison />
-        <Portfolio />
+        <Projects />
         <Experience />
         <Testimonials />
         <Faq />

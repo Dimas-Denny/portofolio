@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
-const techStack = [
+const skills = [
   {
     icon: "/icons/html.svg",
     name: "HTML",
@@ -32,10 +32,10 @@ const techStack = [
   },
 ];
 
-export default function TechStack() {
+export default function Skill() {
   return (
     <section
-      id="skills"
+      id="skill"
       className="bg-linear-to-b from-white to-primary-100/60 pt-16 pb-10"
     >
       <div className="container-custom">
@@ -52,12 +52,12 @@ export default function TechStack() {
         <Carousel opts={{ align: "start" }} className="mt-6">
           {/* Negative margin + item padding = gap between cards */}
           <CarouselContent className="-ml-4">
-            {techStack.map((tech, index) => {
+            {skills.map((skill, index) => {
               // Odd cards (1st, 3rd) are yellow, even cards are white
               const isFilled = index % 2 === 0;
 
               return (
-                <CarouselItem key={tech.name} className="basis-1/2 pl-4">
+                <CarouselItem key={skill.name} className="basis-1/2 pl-4">
                   <div
                     className={cn(
                       "flex h-70 flex-col items-center justify-center rounded-full px-4 text-center",
@@ -74,7 +74,7 @@ export default function TechStack() {
                       )}
                     >
                       <Image
-                        src={tech.icon}
+                        src={skill.icon}
                         alt=""
                         width={28}
                         height={28}
@@ -83,10 +83,10 @@ export default function TechStack() {
                     </div>
 
                     <h3 className="mt-6 text-md font-bold text-neutral-950">
-                      {tech.name}
+                      {skill.name}
                     </h3>
                     <p className="mt-1 text-sm text-neutral-950">
-                      {tech.description}
+                      {skill.description}
                     </p>
                   </div>
                 </CarouselItem>
@@ -94,7 +94,7 @@ export default function TechStack() {
             })}
           </CarouselContent>
 
-          {/* Navigation buttons (override ShadCN's default side positioning) */}
+          {/* Navigation buttons */}
           <div className="mt-8 flex justify-center gap-3">
             <CarouselPrevious className="static size-12 translate-y-0 border-neutral-300 bg-transparent" />
             <CarouselNext className="static size-12 translate-y-0 border-neutral-300 bg-transparent" />
