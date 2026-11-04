@@ -1,7 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import About from "@/components/sections/About";
 import Hero from "@/components/sections/Hero";
-import TechStack from "@/components/sections/TechStack";
+import Skill from "@/components/sections/Skill";
 import Comparison from "@/components/sections/Comparison";
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
@@ -17,7 +17,7 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <TechStack />
+        <Skill />
         <Comparison />
         <Projects />
         <Experience />
