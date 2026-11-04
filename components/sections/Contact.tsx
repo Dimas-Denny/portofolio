@@ -1,8 +1,18 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+
+type ResultType = "success" | "error";
 
 // Same images as the Portfolio section
 const portfolioThumbs = [
@@ -14,14 +24,80 @@ const portfolioThumbs = [
 const inputClass =
   "w-full rounded-xl border border-neutral-300 bg-white px-4 text-sm text-neutral-950 placeholder:text-neutral-500 outline-none transition-colors focus:border-primary-300 focus:ring-2 focus:ring-primary-100";
 
-export default function Contact() {
-  const [isSent, setIsSent] = useState(false);
+// Content for each result modal
+const resultContent = {
+  success: {
+    image: "/icons/succeed.svg",
+    headerBg: "bg-secondary-100",
+    title: "Got Your Message!",
+    description: "Really appreciate you reaching out. I'll be in touch soon.",
+    action: "Back to Home",
+  },
+  error: {
+    image: "/icons/failed.svg",
+    headerBg: "bg-neutral-200",
+    title: "Message Failed",
+    description:
+      "Sorry about that. Please check your connection and try again.",
+    action: "Try Again",
+  },
+};
 
-  // show a success message and reset the form
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+async function sendMessage(data: FormData) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (!navigator.onLine) {
+    throw new Error("No internet connection");
+  }
+  return Object.fromEntries(data);
+}
+
+export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  // What to do after the modal finishes closing
+  const pendingAction = useRef<"home" | "retry" | null>(null);
+
+  const [isSending, setIsSending] = useState(false);
+  const [result, setResult] = useState<ResultType>("success");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const content = resultContent[result];
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    event.currentTarget.reset();
-    setIsSent(true);
+    const form = event.currentTarget;
+
+    setIsSending(true);
+    try {
+      await sendMessage(new FormData(form));
+      form.reset();
+      setResult("success");
+    } catch {
+      // Keep the typed values so the user doesn't lose their message
+      setResult("error");
+    } finally {
+      setIsSending(false);
+      setIsDialogOpen(true);
+    }
+  };
+
+  // "Back to Home" or "Try Again" button
+  const handleAction = () => {
+    pendingAction.current = result === "success" ? "home" : "retry";
+    setIsDialogOpen(false);
+  };
+
+  // Runs after the open/close animation finishes (page is scrollable again)
+  const handleOpenChangeComplete = (open: boolean) => {
+    if (open) return;
+
+    const action = pendingAction.current;
+    pendingAction.current = null;
+
+    if (action === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (action === "retry") {
+      formRef.current?.requestSubmit(); // resend with the same values
+    }
   };
 
   return (
@@ -68,6 +144,7 @@ export default function Contact() {
 
         {/* Form card */}
         <form
+          ref={formRef}
           onSubmit={handleSubmit}
           className="relative rounded-2xl bg-white p-4 shadow-[0_4px_24px_rgba(10,13,18,0.06)]"
         >
@@ -123,21 +200,53 @@ export default function Contact() {
 
           <button
             type="submit"
-            className="mt-5 h-11 w-full rounded-full bg-primary-300 text-sm font-bold text-white transition-colors hover:bg-primary-400"
+            disabled={isSending}
+            className="mt-5 h-11 w-full rounded-full bg-primary-300 text-sm font-bold text-white transition-colors hover:bg-primary-400 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Let&apos;s Talk
+            {isSending ? "Sending..." : "Let's Talk"}
           </button>
-
-          {/* Success message */}
-          <p
-            aria-live="polite"
-            className="mt-3 text-center text-sm text-primary-300"
-          >
-            {isSent &&
-              "Thanks! Your message has been sent. I'll get back to you soon."}
-          </p>
         </form>
       </div>
+
+      {/* Result modal (success / error) */}
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        onOpenChangeComplete={handleOpenChangeComplete}
+      >
+        <DialogContent
+          showCloseButton={false}
+          className="w-[calc(100%-2rem)] max-w-90.25 gap-0 overflow-visible rounded-2xl border-none bg-white p-0 shadow-none sm:max-w-90.25"
+        >
+          {/* Colored header; the illustration overflows above it (balloons) */}
+          <div className={cn("relative h-40 rounded-t-2xl", content.headerBg)}>
+            <Image
+              src={content.image}
+              alt=""
+              width={214}
+              height={194}
+              className="absolute bottom-2 left-1/2 h-48.5 w-53.5 max-w-none -translate-x-1/2"
+            />
+          </div>
+
+          <div className="p-6 text-center">
+            <DialogTitle className="text-xl leading-8 font-bold text-neutral-950">
+              {content.title}
+            </DialogTitle>
+            <DialogDescription className="mt-2 text-sm text-neutral-950">
+              {content.description}
+            </DialogDescription>
+
+            <button
+              type="button"
+              onClick={handleAction}
+              className="mt-4 h-11 w-full rounded-full bg-primary-300 text-sm font-bold text-white transition-colors hover:bg-primary-400"
+            >
+              {content.action}
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
