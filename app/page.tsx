@@ -7,6 +7,7 @@ import Portfolio from "@/components/sections/Portfolio";
 import Experience from "@/components/sections/Experience";
 import Testimonials from "@/components/sections/Testimonials";
 import Faq from "@/components/sections/Faq";
+import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <Experience />
         <Testimonials />
         <Faq />
+        <Contact />
       </main>
     </>
   );
