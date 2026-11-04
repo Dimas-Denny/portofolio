@@ -36,11 +36,11 @@ export default function Skill() {
   return (
     <section
       id="skill"
-      className="bg-linear-to-b from-white to-primary-100/60 pt-16 pb-10"
+      className="bg-linear-to-b from-white to-primary-100/60 pt-16 pb-10 lg:pt-28 lg:pb-20"
     >
       <div className="container-custom">
         {/* Heading */}
-        <h2 className="text-center text-display-sm font-bold text-neutral-950">
+        <h2 className="text-center text-display-sm font-bold text-neutral-950 md:text-display-md lg:text-display-xl">
           Code, Design, and Everything in Between
         </h2>
         <p className="mt-3 text-center text-md text-neutral-950">
@@ -48,19 +48,25 @@ export default function Skill() {
           life.
         </p>
 
-        {/* Carousel: 2 cards per view on mobile */}
-        <Carousel opts={{ align: "start" }} className="mt-6">
+        {/* Carousel: 2 cards per view on mobile, 3 on tablet, all 4 on desktop */}
+        <Carousel
+          opts={{ align: "start" }}
+          className="mt-6 lg:mx-auto lg:mt-12 lg:max-w-230"
+        >
           {/* Negative margin + item padding = gap between cards */}
-          <CarouselContent className="-ml-4">
+          <CarouselContent className="-ml-4 lg:-ml-6">
             {skills.map((skill, index) => {
               // Odd cards (1st, 3rd) are yellow, even cards are white
               const isFilled = index % 2 === 0;
 
               return (
-                <CarouselItem key={skill.name} className="basis-1/2 pl-4">
+                <CarouselItem
+                  key={skill.name}
+                  className="basis-1/2 pl-4 md:basis-1/3 lg:basis-1/4 lg:pl-6"
+                >
                   <div
                     className={cn(
-                      "flex h-70 flex-col items-center justify-center rounded-full px-4 text-center",
+                      "flex h-70 flex-col items-center justify-center rounded-full px-4 text-center lg:rounded-[100px]",
                       isFilled
                         ? "bg-secondary-100"
                         : "border border-neutral-300 bg-white",
@@ -69,7 +75,7 @@ export default function Skill() {
                     {/* Icon circle */}
                     <div
                       className={cn(
-                        "flex size-14 items-center justify-center rounded-full",
+                        "flex size-14 items-center justify-center rounded-full lg:size-15",
                         isFilled ? "bg-white" : "bg-neutral-100",
                       )}
                     >
@@ -78,14 +84,14 @@ export default function Skill() {
                         alt=""
                         width={28}
                         height={28}
-                        className="size-7 object-contain"
+                        className="size-7 object-contain lg:size-8"
                       />
                     </div>
 
                     <h3 className="mt-6 text-md font-bold text-neutral-950">
                       {skill.name}
                     </h3>
-                    <p className="mt-1 text-sm text-neutral-950">
+                    <p className="mt-1 text-sm text-neutral-950 lg:text-md">
                       {skill.description}
                     </p>
                   </div>
@@ -94,7 +100,7 @@ export default function Skill() {
             })}
           </CarouselContent>
 
-          {/* Navigation buttons */}
+          {/* Navigation buttons (override ShadCN's default side positioning) */}
           <div className="mt-8 flex justify-center gap-3">
             <CarouselPrevious className="static size-12 translate-y-0 border-neutral-300 bg-transparent" />
             <CarouselNext className="static size-12 translate-y-0 border-neutral-300 bg-transparent" />
