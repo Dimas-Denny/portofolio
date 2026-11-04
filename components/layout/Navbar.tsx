@@ -16,10 +16,31 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
+const NAVBAR_OFFSET = 88;
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeMenu = () => setIsOpen(false);
+
+  // Close the menu, then scroll to the section minus the navbar height
+  const handleNavClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    event.preventDefault();
+    setIsOpen(false);
+
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    requestAnimationFrame(() => {
+      const top =
+        target.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET;
+      window.scrollTo({ top, behavior: "smooth" });
+      history.replaceState(null, "", href);
+    });
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -51,10 +72,10 @@ export default function Navbar() {
           <div className="flex h-14 items-center justify-between px-5">
             <a
               href="#home"
-              onClick={closeMenu}
+              onClick={(event) => handleNavClick(event, "#home")}
               className="text-display-xs font-bold text-white"
             >
-              Edwin
+              Dimas
             </a>
 
             <button
@@ -104,7 +125,7 @@ export default function Navbar() {
                   >
                     <a
                       href={link.href}
-                      onClick={closeMenu}
+                      onClick={(event) => handleNavClick(event, link.href)}
                       className="block py-2 text-md text-white"
                     >
                       {link.label}
