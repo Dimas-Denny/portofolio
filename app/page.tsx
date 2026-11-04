@@ -5,6 +5,7 @@ import TechStack from "@/components/sections/TechStack";
 import Comparison from "@/components/sections/Comparison";
 import Portfolio from "@/components/sections/Portfolio";
 import Experience from "@/components/sections/Experience";
+import Testimonials from "@/components/sections/Testimonials";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <Comparison />
         <Portfolio />
         <Experience />
+        <Testimonials />
       </main>
     </>
   );
