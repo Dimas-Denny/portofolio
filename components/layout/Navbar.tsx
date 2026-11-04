@@ -21,8 +21,6 @@ const NAVBAR_OFFSET = 88;
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const closeMenu = () => setIsOpen(false);
-
   // Close the menu, then scroll to the section minus the navbar height
   const handleNavClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
