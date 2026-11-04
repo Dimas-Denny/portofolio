@@ -129,7 +129,7 @@ export default function Hero() {
         </div>
 
         {/* Available for Hire badge: centered above the title on desktop */}
-        <div className="mt-10 flex justify-center xl:absolute xl:inset-x-0 xl:top-57.5 xl:mt-0">
+        <div className="mt-10 flex justify-center xl:absolute xl:inset-x-0 xl:top-43.75 xl:mt-0">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary-300 bg-primary-400 px-4 py-0.5 text-xs font-semibold text-white xl:py-1 xl:text-sm">
             <span className="size-2 rounded-full bg-primary-200" />
             Available for Hire
