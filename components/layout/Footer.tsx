@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cacheLife } from "next/cache";
 
 const socials = [
   {
@@ -19,10 +20,14 @@ const socials = [
   { name: "TikTok", icon: "/icons/tiktok.svg", href: "https://tiktok.com" },
 ];
 
-export default function Footer() {
-  // Keeps the copyright year up to date automatically
-  const year = new Date().getFullYear();
+// Cached so prerendering stays stable; refreshed daily so the year rolls over
+async function CopyrightYear() {
+  "use cache";
+  cacheLife("days");
+  return <>{new Date().getFullYear()}</>;
+}
 
+export default function Footer() {
   return (
     <footer className="bg-neutral-950 pt-8 pb-8">
       <div className="container-custom">
@@ -51,7 +56,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <p className="mt-6 text-sm text-neutral-300">
-          &copy; {year} Dimas Denny Wibowo. All rights reserved.
+          &copy; <CopyrightYear /> Dimas Denny Wibowo. All rights reserved.
         </p>
       </div>
     </footer>
