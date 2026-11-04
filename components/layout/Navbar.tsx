@@ -21,7 +21,6 @@ const NAVBAR_OFFSET = 88;
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Close the menu, then scroll to the section minus the navbar height
   const handleNavClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -55,12 +54,38 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  // Close the mobile menu if the screen is resized to desktop (lg = 1024px)
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const handleChange = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsOpen(false);
+    };
+    desktopQuery.addEventListener("change", handleChange);
+    return () => desktopQuery.removeEventListener("change", handleChange);
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 pt-4 lg:pt-8">
       <nav className="container-custom" aria-label="Main navigation">
+        {/* ===== Desktop: centered pill with all links ===== */}
+        <ul className="mx-auto hidden h-12 w-fit items-center gap-10 rounded-full bg-black/20 px-8 backdrop-blur-md lg:flex">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                onClick={(event) => handleNavClick(event, link.href)}
+                className="text-md text-white transition-colors hover:text-secondary-100"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* ===== Mobile & tablet: pill that grows into a full-height panel ===== */}
         <div
           className={cn(
-            "overflow-hidden bg-black/20 transition-[height,border-radius,backdrop-filter] duration-500 ease-out",
+            "overflow-hidden bg-black/20 transition-[height,border-radius,backdrop-filter] duration-500 ease-out lg:hidden",
             isOpen
               ? "h-[calc(100svh-2rem)] rounded-2xl backdrop-blur-2xl"
               : "h-14 rounded-[28px] backdrop-blur-md",
@@ -82,7 +107,6 @@ export default function Navbar() {
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
-              className="md:hidden"
             >
               {isOpen ? (
                 <X className="size-6 text-white" />
