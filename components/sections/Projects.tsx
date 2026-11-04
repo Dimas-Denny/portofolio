@@ -2,23 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-const portfolios = [
+const projects = [
   {
-    slug: "portfolio-1",
+    slug: "project-1",
     title: "Portfolio 1",
     category: "Web Development",
     image: "/images/porto1.png",
     isBest: true,
   },
   {
-    slug: "portfolio-2",
+    slug: "project-2",
     title: "Portfolio 2",
     category: "Web Development",
     image: "/images/porto2.png",
     isBest: true,
   },
   {
-    slug: "portfolio-3",
+    slug: "project-3",
     title: "Portfolio 3",
     category: "Web Development",
     image: "/images/porto3.png",
@@ -26,7 +26,7 @@ const portfolios = [
   },
 ];
 
-/* "Best Portfolio" ribbon badge, built with CSS  */
+/* "Best Portfolio" ribbon badge, built with CSS */
 function BestBadge() {
   return (
     <span
@@ -38,9 +38,9 @@ function BestBadge() {
   );
 }
 
-export default function Portfolio() {
+export default function Projects() {
   return (
-    <section id="portfolio" className="bg-white py-10">
+    <section id="projects" className="bg-white py-10">
       <div className="container-custom">
         {/* Heading */}
         <h2 className="text-display-sm font-bold text-neutral-950">
@@ -53,7 +53,7 @@ export default function Portfolio() {
 
         {/* See All button */}
         <Link
-          href="/portfolio"
+          href="/projects"
           className="mt-6 flex h-12 items-center justify-between rounded-full border border-neutral-300 bg-white pr-1 pl-4 text-md font-semibold text-neutral-950"
         >
           See All
@@ -62,12 +62,12 @@ export default function Portfolio() {
           </span>
         </Link>
 
-        {/* Portfolio cards */}
+        {/* Project cards */}
         <div className="mt-8 flex flex-col gap-6">
-          {portfolios.map((item) => (
+          {projects.map((item) => (
             <Link
               key={item.slug}
-              href={`/portfolio/${item.slug}`}
+              href={`/projects/${item.slug}`}
               className="group relative flex flex-col gap-1 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-primary-200"
             >
               {item.isBest && <BestBadge />}

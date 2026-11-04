@@ -15,10 +15,10 @@ import { cn } from "@/lib/utils";
 type ResultType = "success" | "error";
 
 // Same images as the Portfolio section
-const portfolioThumbs = [
-  { slug: "portfolio-3", image: "/images/porto3.png", title: "Portfolio 3" },
-  { slug: "portfolio-1", image: "/images/porto1.png", title: "Portfolio 1" },
-  { slug: "portfolio-2", image: "/images/porto2.png", title: "Portfolio 2" },
+const projectThumbs = [
+  { slug: "project-3", image: "/images/porto3.png", title: "Portfolio 3" },
+  { slug: "project-1", image: "/images/porto1.png", title: "Portfolio 1" },
+  { slug: "project-2", image: "/images/porto2.png", title: "Portfolio 2" },
 ];
 
 const inputClass =
@@ -114,10 +114,10 @@ export default function Contact() {
 
         {/* Portfolio thumbnails */}
         <div className="mt-6 grid grid-cols-3 gap-3">
-          {portfolioThumbs.map((item) => (
+          {projectThumbs.map((item) => (
             <Link
               key={item.slug}
-              href={`/portfolio/${item.slug}`}
+              href={`/project/${item.slug}`}
               className="group relative aspect-square overflow-hidden rounded-lg"
             >
               <Image

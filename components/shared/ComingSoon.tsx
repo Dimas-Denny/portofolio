@@ -5,7 +5,7 @@ type ComingSoonProps = {
   label?: string;
 };
 
-export default function ComingSoon({ label = "Portfolio" }: ComingSoonProps) {
+export default function ComingSoon({ label = "Project" }: ComingSoonProps) {
   return (
     <main className="flex min-h-svh flex-col items-center justify-center bg-linear-to-b from-white to-primary-100 px-4 text-center">
       <span className="inline-flex items-center gap-2 rounded-full border border-primary-300 bg-primary-400 px-4 py-0.5 text-sm font-medium text-white">
@@ -21,9 +21,9 @@ export default function ComingSoon({ label = "Portfolio" }: ComingSoonProps) {
         study.
       </p>
 
-      {/* Back to the portfolio section on the home page */}
+      {/* Back to the project section on the home page */}
       <Link
-        href="/#portfolio"
+        href="/#project"
         className="mt-8 inline-flex h-12 items-center gap-3 rounded-full bg-secondary-100 pr-5 pl-1 text-md font-semibold text-neutral-950"
       >
         <span className="flex size-10 items-center justify-center rounded-full bg-neutral-950">

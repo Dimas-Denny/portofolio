@@ -4,7 +4,7 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function PortfolioDetailPage({ params }: PageProps) {
+export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
 
   const label = slug
