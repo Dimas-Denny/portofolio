@@ -23,29 +23,29 @@ const anotherTalent = [
 
 export default function Comparison() {
   return (
-    <section id="why-me" className="bg-white pt-12 pb-10">
+    <section id="why-me" className="bg-white pt-12 pb-10 lg:pt-20 lg:pb-20">
       <div className="container-custom">
         {/* Heading */}
-        <h2 className="text-center text-display-sm font-bold text-neutral-950">
+        <h2 className="text-center text-display-sm font-bold text-neutral-950 md:text-display-md lg:text-display-xl">
           More Than Just Code
         </h2>
         <p className="mt-2 text-center text-sm text-neutral-950">
           We care about design, performance, and user experience all in one.
         </p>
 
-        <div className="mt-6 flex flex-col gap-6">
+        <div className="mt-6 grid gap-6 lg:mt-12 lg:grid-cols-2">
           {/* ===== Card: With Me ===== */}
           <div className="rounded-2xl bg-secondary-100 px-4 py-8 text-center">
             <h3 className="text-lg font-bold text-neutral-950">With Me</h3>
 
-            <div className="relative mx-auto mt-4 size-20 overflow-hidden rounded-full bg-primary-300">
+            <div className="relative mx-auto mt-4 size-20 overflow-hidden rounded-full bg-primary-300 lg:mt-6 lg:size-25">
               <Image
                 src="/images/potrait.png"
-                alt="Edwin Anderson"
+                alt="Dimas Denny Wibowo"
                 width={375}
                 height={452}
-                sizes="80px"
-                className="absolute top-[12%] left-[55%] h-auto w-[85%] max-w-none -translate-x-1/2"
+                sizes="(min-width: 1024px) 100px, 80px"
+                className="..." /* keep your current position classes */
               />
             </div>
 
@@ -69,11 +69,11 @@ export default function Comparison() {
             </h3>
 
             {/* Placeholder avatar */}
-            <div className="mx-auto mt-4 flex size-20 items-center justify-center rounded-full bg-neutral-300">
-              <User className="size-10 fill-white text-white" />
+            <div className="mx-auto mt-4 flex size-20 items-center justify-center rounded-full bg-neutral-300 lg:mt-6 lg:size-25">
+              <User className="size-10 fill-white text-white lg:size-12" />
             </div>
 
-            <ul className="mt-6 flex flex-col gap-3">
+            <ul className="mt-6 flex flex-col gap-3 lg:mt-8 lg:gap-6">
               {anotherTalent.map((item) => (
                 <li
                   key={item}
