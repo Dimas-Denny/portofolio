@@ -40,30 +40,34 @@ function BestBadge() {
 
 export default function Projects() {
   return (
-    <section id="projects" className="bg-white py-10">
+    <section id="projects" className="bg-white py-10 lg:pt-14 lg:pb-20">
       <div className="container-custom">
         {/* Heading */}
-        <h2 className="text-display-sm font-bold text-neutral-950">
-          Design to <span className="text-primary-300">Code Accuracy</span>
-        </h2>
-        <p className="mt-2 text-md text-neutral-950">
-          We translated design mockups into pixel-perfect, responsive
-          components, ensuring a smooth user experience across all devices.
-        </p>
+        <div className="lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div className="lg:max-w-165">
+            <h2 className="text-display-sm font-bold text-neutral-950 md:text-display-md lg:text-display-2xl">
+              Design to <span className="text-primary-300">Code Accuracy</span>
+            </h2>
+            <p className="mt-2 text-md text-neutral-950 lg:mt-3">
+              We translated design mockups into pixel-perfect, responsive
+              components, ensuring a smooth user experience across all devices.
+            </p>
+          </div>
 
-        {/* See All button */}
-        <Link
-          href="/projects"
-          className="mt-6 flex h-12 items-center justify-between rounded-full border border-neutral-300 bg-white pr-1 pl-4 text-md font-semibold text-neutral-950"
-        >
-          See All
-          <span className="flex size-10 items-center justify-center rounded-full bg-neutral-950">
-            <ArrowRight className="size-5 text-white" />
-          </span>
-        </Link>
+          {/* See All button: full width on mobile, compact on desktop */}
+          <Link
+            href="/projects"
+            className="mt-6 flex h-12 items-center justify-between rounded-full border border-neutral-300 bg-white pr-1 pl-4 text-md font-semibold text-neutral-950 lg:mt-0 lg:h-13 lg:w-38.25 lg:shrink-0 lg:pr-1.5 lg:pl-5"
+          >
+            See All
+            <span className="flex size-10 items-center justify-center rounded-full bg-neutral-950">
+              <ArrowRight className="size-5 text-white" />
+            </span>
+          </Link>
+        </div>
 
         {/* Project cards */}
-        <div className="mt-8 flex flex-col gap-6">
+        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-3 lg:gap-5">
           {projects.map((item) => (
             <Link
               key={item.slug}
@@ -87,7 +91,7 @@ export default function Projects() {
 
               {/* Info panel */}
               <div className="rounded-3xl bg-neutral-100 p-4">
-                <h3 className="text-xl font-bold text-neutral-950 transition-colors duration-300 group-hover:text-primary-300">
+                <h3 className="text-xl font-bold text-neutral-950 transition-colors duration-300 group-hover:text-primary-300 lg:text-lg">
                   {item.title}
                 </h3>
 
@@ -99,7 +103,7 @@ export default function Projects() {
                   </span>
                 </div>
 
-                <p className="-mt-2 text-sm text-neutral-600">
+                <p className="-mt-2 text-sm text-neutral-600 lg:text-md">
                   {item.category}
                 </p>
               </div>
