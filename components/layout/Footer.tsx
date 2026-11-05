@@ -20,7 +20,6 @@ const socials = [
   { name: "TikTok", icon: "/icons/tiktok.svg", href: "https://tiktok.com" },
 ];
 
-// Cached so prerendering stays stable; refreshed daily so the year rolls over
 async function CopyrightYear() {
   "use cache";
   cacheLife("days");
@@ -29,10 +28,10 @@ async function CopyrightYear() {
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-950 pt-8 pb-8">
-      <div className="container-custom">
+    <footer className="bg-neutral-950 py-8 lg:py-6">
+      <div className="container-custom flex flex-col gap-6 lg:flex-row-reverse lg:items-center lg:justify-between">
         {/* Social media links */}
-        <ul className="flex gap-3">
+        <ul className="flex gap-3 lg:gap-4">
           {socials.map((social) => (
             <li key={social.name}>
               <a
@@ -45,9 +44,9 @@ export default function Footer() {
                 <Image
                   src={social.icon}
                   alt=""
-                  width={40}
-                  height={40}
-                  className="size-10 object-contain"
+                  width={24}
+                  height={24}
+                  className="size-6 object-contain"
                 />
               </a>
             </li>
@@ -55,7 +54,7 @@ export default function Footer() {
         </ul>
 
         {/* Copyright */}
-        <p className="mt-6 text-sm text-neutral-300">
+        <p className="text-sm text-neutral-300">
           &copy; <CopyrightYear /> Dimas Denny Wibowo. All rights reserved.
         </p>
       </div>
