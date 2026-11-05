@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion, type PanInfo } from "framer-motion";
 import { ArrowLeft, ArrowRight, Star, User } from "lucide-react";
@@ -52,7 +52,33 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-function getCardState(position: number) {
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+// true when the screen is at least the lg breakpoint (1024px)
+function useIsDesktop() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const query = window.matchMedia(DESKTOP_QUERY);
+      query.addEventListener("change", onChange);
+      return () => query.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false, // server render: assume mobile
+  );
+}
+
+function getCardState(position: number, isDesktop: boolean) {
+  // Desktop cards are wider, so the back cards step in further
+  const stack = isDesktop
+    ? [
+        { y: 21, scale: 0.918 },
+        { y: 43, scale: 0.833 },
+      ]
+    : [
+        { y: 10, scale: 0.945 },
+        { y: 20, scale: 0.89 },
+      ];
+
   if (position < 0) {
     return { x: "-115%", y: 0, scale: 1, rotate: -8, opacity: 0 };
   }
@@ -60,12 +86,12 @@ function getCardState(position: number) {
     return { x: 0, y: 0, scale: 1, rotate: 0, opacity: 1 };
   }
   if (position === 1) {
-    return { x: 0, y: 10, scale: 0.945, rotate: 0, opacity: 0.6 };
+    return { x: 0, ...stack[0], rotate: 0, opacity: 0.6 };
   }
   if (position === 2) {
-    return { x: 0, y: 20, scale: 0.89, rotate: 0, opacity: 0.3 };
+    return { x: 0, ...stack[1], rotate: 0, opacity: 0.3 };
   }
-  return { x: 0, y: 20, scale: 0.89, rotate: 0, opacity: 0 };
+  return { x: 0, ...stack[1], rotate: 0, opacity: 0 };
 }
 
 const SWIPE_THRESHOLD = 80;
@@ -73,6 +99,7 @@ const SWIPE_THRESHOLD = 80;
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
 
   const total = testimonials.length;
 
@@ -86,21 +113,25 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="overflow-hidden bg-white py-10">
+    <section
+      id="testimonials"
+      className="overflow-hidden bg-white py-10 lg:pt-20 lg:pb-20"
+    >
       <div className="container-custom">
         {/* Heading */}
-        <h2 className="text-center text-display-sm font-bold text-neutral-950">
+        <h2 className="text-center text-display-sm font-bold text-neutral-950 md:text-display-md lg:text-display-xl">
           What They Say About Working With Me
         </h2>
-        <p className="mt-2 text-center text-md text-neutral-950">
+        <p className="mt-2 text-center text-md text-neutral-950 lg:text-sm">
           Real words from clients, teammates, and mentors I&apos;ve collaborated
           with on various projects.
         </p>
 
         {/* Card stack: every card sits in the same grid cell, so the
-            container height always equals the tallest card (no layout jump) */}
+            container height always equals the tallest card (no layout jump).
+            Bottom padding leaves room for the back cards peeking out. */}
         <div
-          className="mt-6 grid pb-5"
+          className="mt-6 grid pb-5 lg:mt-12 lg:pb-11"
           role="region"
           aria-roledescription="carousel"
           aria-label="Testimonials"
@@ -117,7 +148,7 @@ export default function Testimonials() {
               <motion.figure
                 key={item.name}
                 initial={false}
-                animate={getCardState(position)}
+                animate={getCardState(position, isDesktop)}
                 transition={
                   shouldReduceMotion
                     ? { duration: 0 }
@@ -134,7 +165,7 @@ export default function Testimonials() {
                 dragElastic={0.7}
                 onDragEnd={handleDragEnd}
                 aria-hidden={!isFront}
-                className={`col-start-1 row-start-1 flex flex-col items-center rounded-2xl bg-primary-300 p-6 text-center ${
+                className={`col-start-1 row-start-1 flex flex-col items-center rounded-2xl bg-primary-300 p-6 text-center lg:px-12 lg:py-8 ${
                   isFront
                     ? "cursor-grab active:cursor-grabbing"
                     : "pointer-events-none"
@@ -150,12 +181,12 @@ export default function Testimonials() {
                   ))}
                 </div>
 
-                <blockquote className="mt-4 text-lg font-medium text-white select-none">
+                <blockquote className="mt-4 text-lg font-medium text-white select-none lg:mt-5 lg:text-xl">
                   &ldquo;{item.quote}&rdquo;
                 </blockquote>
 
                 {/* mt-auto pushes the author to the bottom so all cards align */}
-                <figcaption className="mt-auto flex flex-col items-center pt-16">
+                <figcaption className="mt-auto flex flex-col items-center pt-16 lg:pt-8">
                   {item.avatar ? (
                     <div className="relative size-16 overflow-hidden rounded-full">
                       <Image
@@ -173,10 +204,10 @@ export default function Testimonials() {
                     </div>
                   )}
 
-                  <p className="mt-2 text-lg font-semibold text-white">
+                  <p className="mt-2 text-lg font-semibold text-white lg:text-md">
                     {item.name}
                   </p>
-                  <p className="text-md text-white">{item.role}</p>
+                  <p className="text-md text-white lg:text-sm">{item.role}</p>
                 </figcaption>
               </motion.figure>
             );
@@ -184,7 +215,7 @@ export default function Testimonials() {
         </div>
 
         {/* Navigation buttons (never disabled because the carousel loops) */}
-        <div className="mt-8 flex justify-center gap-3">
+        <div className="mt-8 flex justify-center gap-3 lg:mt-10">
           <button
             type="button"
             onClick={goPrev}
